@@ -14,6 +14,17 @@ module.exports = server => {
 
 function register(req, res) {
   // implement user registration
+
+  let { username, password } = req.body;
+
+  password = bcrypt.hashSync(password, 10);
+
+  const token = jwt.sign({ data: username }, jwtKey, { expiresIn: "1h" });
+
+  db("users")
+    .insert({ username, password })
+    .then(data => res.status(200).json({ token }))
+    .catch(err => res.status(200).json(err));
 }
 
 function login(req, res) {
