@@ -2,6 +2,7 @@ const axios = require("axios");
 const db = require("../database/dbConfig");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const jwtKey = require("../_secrets/keys").jwtKey;
 
 const { authenticate } = require("./middlewares");
 
