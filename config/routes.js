@@ -29,6 +29,22 @@ function register(req, res) {
 
 function login(req, res) {
   // implement user login
+
+  const { username, password } = req.body;
+
+  db("users")
+    .where({ username })
+    .select("password")
+    .then(data => {
+      console.log(data);
+      const hash = data[0].password;
+      console.log(hash);
+
+      !bcrypt.compareSync(password, hash)
+        ? res.status(400).json({ err: "Invalid Credentials" })
+        : res.status(200).json({ message: "Login successful!" });
+    })
+    .catch(err => res.status(400).json(err));
 }
 
 function getJokes(req, res) {
